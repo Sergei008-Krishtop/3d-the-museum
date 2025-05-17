@@ -1,134 +1,136 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>3D Музей Истории</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>3D Музей</title>
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
-      font-family: 'Playfair Display', serif;
-      background: url('https://i.imgur.com/Y4z5V4s.jpg') no-repeat center center fixed;
-      background-size: cover;
-      color: #fff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #111;
+      color: #eee;
+      line-height: 1.6;
     }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    nav {
-      background: rgba(0, 0, 0, 0.85);
-      padding: 15px;
-      position: fixed;
-      width: 100%;
-      top: 0;
-      left: 0;
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-      z-index: 1000;
-    }
-
-    nav a {
-      color: #fff;
-      text-decoration: none;
-      font-size: 18px;
-      transition: color 0.3s;
-    }
-
-    nav a:hover {
-      color: #ccc;
-    }
-
     header {
-      padding: 100px 20px 40px;
+      background-color: #222;
       text-align: center;
-      background: rgba(0, 0, 0, 0.5);
+      padding: 30px 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.7);
     }
-
-    h1 {
+    header h1 {
       margin: 0;
-      font-size: 40px;
+      font-size: 3em;
+      letter-spacing: 1.5px;
     }
-
+    header p {
+      font-size: 1.2em;
+      color: #bbb;
+      margin-top: 10px;
+    }
+    .history {
+      max-width: 900px;
+      margin: 40px auto 60px;
+      background: #1a1a1a;
+      padding: 25px 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px #333;
+    }
+    .history h2 {
+      margin-top: 0;
+      font-size: 2em;
+      border-bottom: 2px solid #555;
+      padding-bottom: 10px;
+      color: #f0a500;
+    }
+    .history p {
+      font-size: 1.1em;
+      color: #ddd;
+    }
     .gallery {
-      padding: 40px 20px;
       display: grid;
-      gap: 30px;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 40px;
+      padding: 0 40px 60px;
+      max-width: 1200px;
+      margin: 0 auto;
     }
-
     .item {
-      background: rgba(0, 0, 0, 0.6);
+      background-color: #1c1c1c;
       padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.5);
+      border-radius: 14px;
+      box-shadow: 0 0 25px rgba(240,165,0,0.6);
+      transition: transform 0.3s ease;
     }
-
+    .item:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 35px rgba(240,165,0,0.9);
+    }
     model-viewer {
       width: 100%;
-      height: 300px;
-      background-color: #111;
-      border-radius: 10px;
+      height: 320px;
+      background-color: #000;
+      border-radius: 12px;
+      outline: none;
     }
-
     .desc {
-      margin-top: 15px;
+      margin-top: 18px;
     }
-
-    footer {
-      background: rgba(0, 0, 0, 0.7);
-      padding: 30px;
-      text-align: center;
-      margin-top: 40px;
+    .desc h3 {
+      margin: 0 0 10px;
+      color: #f0a500;
+      font-size: 1.4em;
+    }
+    .desc p {
+      margin: 0;
+      color: #ccc;
+    }
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 2em;
+      }
+      .history, .gallery {
+        padding: 20px;
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- Навигация -->
-  <nav>
-    <a href="#home">Главная</a>
-    <a href="#exhibits">Экспонаты</a>
-    <a href="#about">О нас</a>
-  </nav>
-
-  <!-- Главная -->
-  <header id="home">
-    <h1>3D Музей Истории</h1>
-    <p>Интерактивная коллекция древних артефактов в 3D</p>
+  <header>
+    <h1>3D Музей</h1>
+    <p>Изучайте экспонаты в интерактивном формате</p>
   </header>
 
-  <!-- Экспонаты -->
-  <section id="exhibits" class="gallery">
+  <section class="history">
+    <h2>Исторические моменты</h2>
+    <p>
+      Наш музей посвящён эпохам Османской империи и Тюркских государств. Здесь вы увидите военные доспехи, оружие и артефакты, которые отражают культуру и историю великих цивилизаций, формировавших мир в XVI–XVII веках. Погрузитесь в прошлое через интерактивные 3D модели и узнайте больше о тех временах.
+    </p>
+  </section>
 
-    <!-- Экспонат 1 -->
+  <section class="gallery">
+
+    <!-- Оттоманский шлем -->
     <div class="item">
       <model-viewer src="ottoman_helmet (1).glb" alt="Оттоманский шлем" auto-rotate camera-controls></model-viewer>
       <div class="desc">
         <h3>Оттоманский шлем</h3>
-        <p>Военный шлем Османской империи XVI–XVII века. Украшен чеканкой и узорами.</p>
+        <p>Военный шлем эпохи Османской империи, использовавшийся в XVI–XVII веках. Изготовлен из стали с декоративной чеканкой.</p>
       </div>
     </div>
 
-    <!-- Экспонат 2 -->
+    <!-- Тюрский Клинок -->
     <div class="item">
-      <model-viewer src="turk_kilij.glb" alt="Клинок Turk Kilij" auto-rotate camera-controls></model-viewer>
+      <model-viewer src="turk_kilij.glb" alt="Тюрски Клинок" auto-rotate camera-controls></model-viewer>
       <div class="desc">
-        <h3>Клинок Turk Kilij</h3>
-        <p>Изогнутый турецкий меч, использовавшийся с эпохи Сельджуков до Османов.</p>
+        <h3>Тюрски Клинок</h3>
+        <p>Традиционный Тюрский изогнутый меч, использовавшийся с эпохи Сельджуков до Османской империи. Отличается широкой режущей частью и легкостью.</p>
       </div>
     </div>
 
   </section>
-
-  <!-- О нас -->
-  <footer id="about">
-    <p>&copy; 2025 3D Музей Истории. Сделано с любовью к культуре.</p>
-  </footer>
 
 </body>
 </html>
