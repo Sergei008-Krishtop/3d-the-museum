@@ -54,6 +54,12 @@
       font-size: 18px;
     }
 
+    h2 {
+      text-align: center;
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
+
     .gallery {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -66,6 +72,25 @@
       padding: 20px;
       border-radius: 12px;
       box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.6s ease forwards;
+    }
+
+    .item:nth-child(1) { animation-delay: 0.2s; }
+    .item:nth-child(2) { animation-delay: 0.4s; }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .item:hover {
+      transform: scale(1.02);
+      transition: transform 0.3s;
+      box-shadow: 0 0 20px rgba(255,255,255,0.2);
     }
 
     model-viewer {
@@ -88,6 +113,21 @@
     html {
       scroll-behavior: smooth;
     }
+
+    @media (max-width: 600px) {
+      nav {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      h1 {
+        font-size: 28px;
+      }
+
+      .gallery {
+        padding: 20px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -103,33 +143,4 @@
   <header id="home">
     <h1>3D Музей Истории</h1>
     <p>Интерактивная коллекция древних артефактов в 3D</p>
-  </header>
-
-  <!-- Экспонаты -->
-  <section id="exhibits" class="gallery">
-    <!-- 1. Оттоманский шлем -->
-    <div class="item">
-      <model-viewer src="ottoman_helmet (1).glb" alt="Оттоманский шлем" auto-rotate camera-controls></model-viewer>
-      <div class="desc">
-        <h3>Оттоманский шлем</h3>
-        <p>Военный шлем Османской империи XVI–XVII века. Украшен чеканкой и узорами.</p>
-      </div>
-    </div>
-
-    <!-- 2. Клинок Turk Kilij -->
-    <div class="item">
-      <model-viewer src="turk_kilij.glb" alt="Клинок Turk Kilij" auto-rotate camera-controls></model-viewer>
-      <div class="desc">
-        <h3>Клинок Turk Kilij</h3>
-        <p>Изогнутый турецкий меч, использовавшийся с эпохи Сельджуков до Османов.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- О нас -->
-  <footer id="about">
-    <p>&copy; 2025 3D Музей Истории. Создано с любовью к культуре.</p>
-  </footer>
-
-</body>
-</html>
+  </header
