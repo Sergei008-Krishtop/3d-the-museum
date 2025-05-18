@@ -191,86 +191,67 @@
   </style>
 
 </head>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>3D Museum</title>
-  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-  <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
+<!-- Модальное окно -->
+<div class="modal" id="modelModal">
+  <span class="close-btn" onclick="closeModal()">&times;</span>
+  <model-viewer id="modalViewer" src="" alt="Увеличенная модель" auto-rotate camera-controls></model-viewer>
+</div>
 
-  <header>
-    <h1>Добро пожаловать в 3D Музей</h1>
-    <button onclick="scrollToTop()">Наверх</button>
-  </header>
+<script>
+  function openModal(src, alt) {
+    const modal = document.getElementById('modelModal');
+    const viewer = document.getElementById('modalViewer');
+    viewer.src = src;
+    viewer.alt = alt;
+    modal.style.display = 'flex';
+  }
 
-  <main>
-    <section class="epoch" id="turkic">
-      <h2>Тюркская и Османская эпоха</h2>
-      <div class="models">
-        <model-viewer src="models/turkic_model.glb" alt="Тюркский артефакт" auto-rotate camera-controls></model-viewer>
-        <button onclick="openModal('models/turkic_model.glb')">Увеличить</button>
-      </div>
-    </section>
+  function closeModal() {
+    document.getElementById('modelModal').style.display = 'none';
+    document.getElementById('modalViewer').src = ''; // очистка модели
+  }
 
-    <section class="epoch" id="rome">
-      <h2>Древний Рим</h2>
-      <div class="models">
-        <model-viewer src="models/roman_model.glb" alt="Римский артефакт" auto-rotate camera-controls></model-viewer>
-        <button onclick="openModal('models/roman_model.glb')">Увеличить</button>
-      </div>
-    </section>
+  // Закрытие по клику вне области viewer
+  window.addEventListener('click', function(event) {
+    const modal = document.getElementById('modelModal');
+    const viewer = document.getElementById('modalViewer');
+    if (event.target === modal) {
+      closeModal();
+    }
+  });
+</script>
+<script>
+  // Показать кнопку при прокрутке
+  window.onscroll = function() {
+    const btn = document.getElementById("scrollTopBtn");
+    if (document.body.scrollTop > 400 || document.documentElement.scrollTop > 400) {
+      btn.style.display = "block";
+    } else {
+      btn.style.display = "none";
+    }
+  };
 
-    <section class="epoch" id="medieval">
-      <h2>Средневековая Европа</h2>
-      <div class="models">
-        <model-viewer src="models/medieval_model.glb" alt="Средневековый артефакт" auto-rotate camera-controls></model-viewer>
-        <button onclick="openModal('models/medieval_model.glb')">Увеличить</button>
-      </div>
-    </section>
-  </main>
-
-  <div id="modal" class="modal" style="display:none;">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal()">&times;</span>
-      <model-viewer id="modalViewer" alt="Увеличенный вид" auto-rotate camera-controls></model-viewer>
-    </div>
-  </div>
-
-  <footer>
-    <p>&copy; 2025 3D Museum</p>
-  </footer>
-
+  // Прокрутка наверх
+  function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+<button onclick="scrollToTop()" id="scrollTopBtn" title="Наверх">↑ Наверх</button>
+<script>
   <script>
-    function scrollToTop() {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function openModal(modelPath) {
-      const modal = document.getElementById('modal');
-      const viewer = document.getElementById('modalViewer');
-      viewer.setAttribute('src', modelPath);
-      modal.style.display = 'block';
-    }
-
-    function closeModal() {
-      const modal = document.getElementById('modal');
-      const viewer = document.getElementById('modalViewer');
-      modal.style.display = 'none';
-      viewer.removeAttribute('src');
-    }
-
-    // Закрытие по клику вне модального окна
-    window.onclick = function(event) {
-      const modal = document.getElementById('modal');
-      if (event.target === modal) {
-        closeModal();
-      }
-    }
-  </script>
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('nav a').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href').substring(1);
+        const targetElement = document.getElementById(targetId);
+        if (targetElement) {
+          targetElement.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+  });
+</script>
 
 </body>
 </html>
