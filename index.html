@@ -420,5 +420,12 @@
 <!-- Кнопка Наверх -->
 <button onclick="scrollToTop()" id="toTopBtn" title="Наверх">↑</button>
 
+<script>
+  // Прокрутка наверх при первой загрузке страницы
+  window.addEventListener("load", function() {
+    setTimeout(() => window.scrollTo(0, 0), 0);
+  });
+</script>
+
 </body>
 </html>
