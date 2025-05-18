@@ -237,6 +237,22 @@
   }
 </script>
 <button onclick="scrollToTop()" id="scrollTopBtn" title="Наверх">↑ Наверх</button>
+<script>
+  // Находим все ссылки в навигации
+  document.querySelectorAll('nav a').forEach(link => {
+    link.addEventListener('click', function(e) {
+      e.preventDefault(); // отменяем стандартный прыжок
+      
+      const targetId = this.getAttribute('href').substring(1); // получаем id без #
+      const targetElement = document.getElementById(targetId);
+      
+      if (targetElement) {
+        // Плавно прокручиваем к нужному элементу
+        targetElement.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  });
+</script>
 
 <body>
 
