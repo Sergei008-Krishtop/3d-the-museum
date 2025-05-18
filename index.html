@@ -5,6 +5,68 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>3D Музей</title>
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+<!-- Подключение Three.js -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/loaders/GLTFLoader.js"></script>
+<script>
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x111111);
+
+  const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+  camera.position.set(0, 1.6, 5);
+
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  document.getElementById('three-container').appendChild(renderer.domElement);
+
+  const controls = new THREE.OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.1;
+  controls.maxPolarAngle = Math.PI / 2;
+
+  // Освещение
+  const light = new THREE.PointLight(0xffffff, 1);
+  light.position.set(0, 5, 0);
+  scene.add(light);
+
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+  scene.add(ambientLight);
+
+  // Стены и пол
+  const roomSize = 10;
+  const wallMaterial = new THREE.MeshStandardMaterial({ color: 0x444444, side: THREE.BackSide });
+
+  const room = new THREE.BoxGeometry(roomSize, roomSize, roomSize);
+  const walls = new THREE.Mesh(room, wallMaterial);
+  scene.add(walls);
+
+  // Подгрузка картин (если есть)
+  const loader = new THREE.GLTFLoader();
+
+  // Пример: загрузка картины на заднюю стену
+  loader.load('models/art1.glb', function (gltf) {
+    const model = gltf.scene;
+    model.scale.set(1, 1, 1);
+    model.position.set(0, 1.5, -roomSize / 2 + 0.1);
+    scene.add(model);
+  });
+
+  function animate() {
+    requestAnimationFrame(animate);
+    controls.update();
+    renderer.render(scene, camera);
+  }
+
+  animate();
+
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth/window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+</script>
+
   <style>
     body {
       margin: 0;
@@ -133,8 +195,75 @@
         grid-column: span 1;
       }
     }
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0,0,0,0.85);
+  justify-content: center;
+  align-items: center;
+}
+.modal model-viewer {
+  width: 80vw;
+  height: 80vh;
+}
+.modal .close-btn {
+  position: absolute;
+  top: 30px;
+  right: 40px;
+  font-size: 30px;
+  color: #fff;
+  cursor: pointer;
+}
+.expand-btn {
+  margin-top: 10px;
+  padding: 8px 12px;
+  background-color: #f0a500;
+  color: #111;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.expand-btn:hover {
+  background-color: #ffbe32;
+}
+
   </style>
+
 </head>
+<!-- Модальное окно -->
+<div class="modal" id="modelModal">
+  <span class="close-btn" onclick="closeModal()">&times;</span>
+  <model-viewer id="modalViewer" src="" alt="Увеличенная модель" auto-rotate camera-controls></model-viewer>
+</div>
+
+<script>
+  function openModal(src, alt) {
+    const modal = document.getElementById('modelModal');
+    const viewer = document.getElementById('modalViewer');
+    viewer.src = src;
+    viewer.alt = alt;
+    modal.style.display = 'flex';
+  }
+
+  function closeModal() {
+    document.getElementById('modelModal').style.display = 'none';
+    document.getElementById('modalViewer').src = ''; // очистка модели
+  }
+
+  // Закрытие по клику вне области viewer
+  window.addEventListener('click', function(event) {
+    const modal = document.getElementById('modelModal');
+    const viewer = document.getElementById('modalViewer');
+    if (event.target === modal) {
+      closeModal();
+    }
+  });
+</script>
+
 <body>
 
 <header>
@@ -155,6 +284,8 @@
 <section class="gallery">
   <div class="item">
     <model-viewer src="ottoman_helmet (1).glb" alt="Оттоманский шлем" auto-rotate camera-controls></model-viewer>
+<button class="expand-btn" onclick="openModal('ottoman_helmet (1).glb', 'Описание')">Увеличить</button>
+
     <div class="desc">
       <h3>Османский боевой шлем</h3>
       <p>Этот изогнутый шлем — шедевр средневекового оружейного искусства. Его поверхность украшена орнаментами, а форма обеспечивала идеальный баланс защиты и подвижности в бою.</p>
@@ -162,6 +293,8 @@
   </div>
   <div class="item">
     <model-viewer src="turk_kilij.glb" alt="Тюркский клинок" auto-rotate camera-controls></model-viewer>
+<button class="expand-btn" onclick="openModal('turk_kilij.glb', 'Описание')">Увеличить</button>
+
     <div class="desc">
       <h3>Тюркский клинок</h3>
       <p>Килидж с изогнутым лезвием — символ силы кочевых воинов. Его рубящая мощь и эстетическая изысканность стали легендой степей и пустынь.</p>
@@ -169,6 +302,8 @@
   </div>
   <div class="item">
     <model-viewer src="low_poly_shield.glb" alt="Османский щит" auto-rotate camera-controls></model-viewer>
+<button class="expand-btn" onclick="openModal('low_poly_shield.glb', 'Описание')">Увеличить</button>
+
     <div class="desc">
       <h3>Османский щит</h3>
       <p>Щит из плотной кожи и бронзы, отражавший удары сабель и стрел. Символ мужества и защиты, носимый элитными воинами империи.</p>
@@ -176,6 +311,8 @@
   </div>
   <div class="item">
     <model-viewer src="bow_arrow.glb" alt="Тюркский лук" auto-rotate camera-controls></model-viewer>
+<button class="expand-btn" onclick="openModal('bow_arrow.glb', 'Описание')">Увеличить</button>
+
     <div class="desc">
       <h3>Тюркский боевой лук</h3>
       <p>Композитный лук, созданный для точности и скорости. Идеален для стрельбы с коня — настоящее оружие степного ветра.</p>
@@ -200,6 +337,8 @@
 <section class="gallery">
   <div class="item">
     <model-viewer src="imperial_roman_leather_helmet.glb" alt="Римский шлем" auto-rotate camera-controls></model-viewer>
+<button class="expand-btn" onclick="openModal('imperial_roman_leather_helmet.glb', 'Описание')">Увеличить</button>
+
     <div class="desc">
       <h3>Римский легионерский шлем</h3>
       <p>Надёжный шлем из кожи и металла, защищавший солдат в жестоких битвах. Обеспечивал обзор, безопасность и внушал страх врагу.</p>
@@ -208,6 +347,8 @@
 
   <div class="item">
     <model-viewer src="sword_of_tiberius.glb" alt="Гладиус" auto-rotate camera-controls></model-viewer>
+<button class="expand-btn" onclick="openModal('sword_of_tiberius.glb', 'Описание')">Увеличить</button>
+
     <div class="desc">
       <h3>Гладиус</h3>
       <p>Короткий, но смертоносный меч. Орудие победы римских легионов, идеально подходившее для ближнего боя и точных выпадов.</p>
@@ -216,6 +357,8 @@
 
   <div class="item">
     <model-viewer src="scutum.glb" alt="Скутум" auto-rotate camera-controls></model-viewer>
+<button class="expand-btn" onclick="openModal('scutum.glb', 'Описание')">Увеличить</button>
+
     <div class="desc">
       <h3>Скутум</h3>
       <p>Массивный щит с выпуклой поверхностью, формировавший стену неприступной защиты. Символ силы и единства римской пехоты.</p>
@@ -224,6 +367,8 @@
 
   <div class="item">
     <model-viewer src="roman_officer_-_body_armour.glb" alt="Лорика сегментата" auto-rotate camera-controls></model-viewer>
+<button class="expand-btn" onclick="openModal('roman_officer_-_body_armour.glb', 'Описание')">Увеличить</button>
+
     <div class="desc">
       <h3>Лорика сегментата</h3>
       <p>Инновационный доспех, сочетающий гибкость и надёжность. Его металлические пластины гарантировали выживание на поле боя.</p>
@@ -249,6 +394,8 @@
 <section class="gallery">
   <div class="item">
     <model-viewer src="medieval_sword.glb" alt="Средневековый меч" auto-rotate camera-controls></model-viewer>
+<button class="expand-btn" onclick="openModal('medieval_sword.glb', 'Описание')">Увеличить</button>
+
     <div class="desc">
       <h3>Средневековый меч</h3>
       <p>Классическое оружие рыцарей, созданное для мощных ударов и защиты чести на дуэлях.</p>
@@ -257,6 +404,8 @@
 
   <div class="item">
     <model-viewer src="knight_shield_3dmodel_2k.glb" alt="Рыцарский щит" auto-rotate camera-controls></model-viewer>
+<button class="expand-btn" onclick="openModal('knight_shield_3dmodel_2k.glb', 'Описание')">Увеличить</button>
+
     <div class="desc">
       <h3>Рыцарский щит</h3>
       <p>Щит со львом также использовался в средневековой Европе и был символом рыцарства. Рыцари носили его на своих доспехах, чтобы показать свою верность и преданность своему королю или господину.</p>
@@ -265,6 +414,8 @@
 
   <div class="item">
     <model-viewer src="medieval_crossbow_game_model.glb" alt="Арбалет" auto-rotate camera-controls></model-viewer>
+<button class="expand-btn" onclick="openModal('medieval_crossbow_game_model.glb', 'Описание')">Увеличить</button>
+
     <div class="desc">
       <h3>Арбалет</h3>
       <p>Мощное дальнобойное оружие, изменившее ход многих сражений Средневековья.</p>
@@ -273,6 +424,8 @@
 
   <div class="item">
     <model-viewer src="knight_-_includes_file_for_3d_printing.glb" alt="Рыцарские доспехи" auto-rotate camera-controls></model-viewer>
+<button class="expand-btn" onclick="openModal('knight_-_includes_file_for_3d_printing.glb', 'Описание')">Увеличить</button>
+
     <div class="desc">
       <h3>Рыцарские доспехи</h3>
       <p>Полный комплект металлической брони, обеспечивающий защиту на поле боя и символизирующий статус воина.</p>
@@ -284,4 +437,7 @@
     <p>Средневековая Европа — это символ героизма, религии и романтизированной войны. Рыцари в доспехах, мощные арбалеты, искусные мечи — все эти артефакты воплощают дух времени.</p>
     <p>Сила, преданность и честь — главные добродетели эпохи. Каждый предмет в экспозиции несёт в себе не только военное значение, но и культурное наследие, которое сформировало европейскую цивилизацию.</p>
   </div>
+<section id="artgallery" style="height: 100vh;">
+  <h2 style="text-align:center; color:white; background:black; margin:0;">3D Арт-Комната</h2>
+  <div id="three-container" style="width: 100%; height: 100%;"></div>
 </section>
