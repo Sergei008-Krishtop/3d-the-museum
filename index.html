@@ -12,12 +12,27 @@
       background-color: #111;
       color: #eee;
       line-height: 1.6;
+      scroll-behavior: smooth;
     }
     header {
       background-color: #222;
       text-align: center;
-      padding: 30px 20px;
+      padding: 30px 20px 20px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.7);
+    }
+    nav {
+      margin-top: 15px;
+    }
+    nav a {
+      color: #f0a500;
+      text-decoration: none;
+      margin: 0 12px;
+      font-size: 1.1em;
+      border-bottom: 2px solid transparent;
+      transition: border-color 0.3s;
+    }
+    nav a:hover {
+      border-color: #f0a500;
     }
     header h1 {
       margin: 0;
@@ -90,6 +105,10 @@
       header h1 {
         font-size: 2em;
       }
+      nav a {
+        display: block;
+        margin: 8px 0;
+      }
       .history, .gallery {
         padding: 20px;
       }
@@ -101,9 +120,13 @@
   <header>
     <h1>3D Музей</h1>
     <p>Погрузитесь в эпоху великих империй через интерактивные экспонаты</p>
+    <nav>
+      <a href="#turk">Тюркская и Османская</a>
+      <a href="#rome">Древний Рим</a>
+    </nav>
   </header>
 
-  <section class="history">
+  <section class="history" id="turk">
     <h2>Добро пожаловать в Виртуальный Музей</h2>
     <p>
       Этот музей создан для всех, кто интересуется историей, культурой и военным делом тюркских народов и Османской империи. Здесь собраны уникальные артефакты — от изысканных доспехов до легендарного оружия, каждое из которых воссоздано в формате 3D. Вы можете вращать модели, приближать детали и буквально прикоснуться к прошлому.
@@ -111,11 +134,12 @@
   </section>
 
   <section class="gallery">
+
     <div class="item">
       <model-viewer src="ottoman_helmet (1).glb" alt="Оттоманский шлем" auto-rotate camera-controls></model-viewer>
       <div class="desc">
         <h3>Османский боевой шлем</h3>
-        <p>Тяжёлый стальной шлем с узорчатым навершием, защищавший головы янычар на полях сражений. Его формы отражают мощь и великолепие османского военного искусства.</p>
+        <p>Этот изогнутый шлем — шедевр средневекового оружейного искусства. Его поверхность украшена орнаментами, а форма обеспечивала идеальный баланс защиты и подвижности в бою.</p>
       </div>
     </div>
 
@@ -123,15 +147,7 @@
       <model-viewer src="turk_kilij.glb" alt="Тюркский клинок" auto-rotate camera-controls></model-viewer>
       <div class="desc">
         <h3>Тюркский клинок</h3>
-        <p>Искривлённый меч, идеально сбалансированный для конного боя. Это оружие не просто поражало врагов — оно наводило ужас одним своим видом.</p>
-      </div>
-    </div>
-
-    <div class="item">
-      <model-viewer src="bow_arrow.glb" alt="Тюркский лук" auto-rotate camera-controls></model-viewer>
-      <div class="desc">
-        <h3>Тюркский боевой лук</h3>
-        <p>Композитный лук, созданный для стрельбы на полном скаку. Тюркские воины метко поражали цель с огромной дистанции, не снижая скорости.</p>
+        <p>Килидж с изогнутым лезвием — символ силы кочевых воинов. Его рубящая мощь и эстетическая изысканность стали легендой степей и пустынь.</p>
       </div>
     </div>
 
@@ -139,12 +155,20 @@
       <model-viewer src="low_poly_shield.glb" alt="Османский щит" auto-rotate camera-controls></model-viewer>
       <div class="desc">
         <h3>Османский щит</h3>
-        <p>Круглый щит из кожи и металла с чеканкой полумесяцев и солнца — символа силы и защиты. Использовался в пешем и кавалерийском бою.</p>
+        <p>Щит из плотной кожи и бронзы, отражавший удары сабель и стрел. Символ мужества и защиты, носимый элитными воинами империи.</p>
+      </div>
+    </div>
+
+    <div class="item">
+      <model-viewer src="bow_arrow.glb" alt="Тюркский лук" auto-rotate camera-controls></model-viewer>
+      <div class="desc">
+        <h3>Тюркский боевой лук</h3>
+        <p>Композитный лук, созданный для точности и скорости. Идеален для стрельбы с коня — настоящее оружие степного ветра.</p>
       </div>
     </div>
   </section>
 
-  <section class="history">
+  <section class="history" id="rome">
     <h2>Эпоха Древнего Рима</h2>
     <p>
       Погрузитесь в славные времена Римской империи — эпохи легионеров, гладиаторов и великих полководцев. Эти артефакты демонстрируют военное мастерство, технологическое превосходство и культуру античного Рима.
@@ -152,11 +176,12 @@
   </section>
 
   <section class="gallery">
+
     <div class="item">
       <model-viewer src="imperial_roman_leather_helmet.glb" alt="Римский шлем" auto-rotate camera-controls></model-viewer>
       <div class="desc">
         <h3>Римский легионерский шлем</h3>
-        <p>Узнаваемый по гребню и щёчным пластинам, этот шлем защищал легионеров в жестоких боях, а также внушал страх варварам своим видом.</p>
+        <p>Надёжный шлем из кожи и металла, защищавший солдат в жестоких битвах. Обеспечивал обзор, безопасность и внушал страх врагу.</p>
       </div>
     </div>
 
@@ -164,15 +189,7 @@
       <model-viewer src="sword_of_tiberius.glb" alt="Гладиус" auto-rotate camera-controls></model-viewer>
       <div class="desc">
         <h3>Гладиус</h3>
-        <p>Короткий, но смертоносный меч, идеальный для тесного боя в строю. Символ завоеваний и мощи римской пехоты.</p>
-      </div>
-    </div>
-
-    <div class="item">
-      <model-viewer src="roman_officer_-_body_armour.glb" alt="Лорика сегментата" auto-rotate camera-controls></model-viewer>
-      <div class="desc">
-        <h3>Лорика сегментата</h3>
-        <p>Инновационный доспех из сегментированных пластин, сочетавший мобильность и защиту. Носился центурионами и опытными воинами.</p>
+        <p>Короткий, но смертоносный меч. Орудие победы римских легионов, идеально подходившее для ближнего боя и точных выпадов.</p>
       </div>
     </div>
 
@@ -180,9 +197,18 @@
       <model-viewer src="scutum.glb" alt="Скутум" auto-rotate camera-controls></model-viewer>
       <div class="desc">
         <h3>Скутум</h3>
-        <p>Изогнутый прямоугольный щит, ключ к знаменитой формации «черепаха». Он был настоящей стеной в руках легионеров.</p>
+        <p>Массивный щит с выпуклой поверхностью, формировавший стену неприступной защиты. Символ силы и единства римской пехоты.</p>
       </div>
     </div>
+
+    <div class="item">
+      <model-viewer src="roman_officer_-_body_armour.glb" alt="Лорика сегментата" auto-rotate camera-controls></model-viewer>
+      <div class="desc">
+        <h3>Лорика сегментата</h3>
+        <p>Инновационный доспех, сочетающий гибкость и надёжность. Его металлические пластины гарантировали выживание на поле боя.</p>
+      </div>
+    </div>
+
   </section>
 
 </body>
