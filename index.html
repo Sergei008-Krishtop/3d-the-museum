@@ -189,6 +189,18 @@
 }
 
   </style>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>3D Museum</title>
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
+</head>
 
 </head>
 <!-- Модальное окно -->
@@ -238,20 +250,6 @@
 </script>
 <button onclick="scrollToTop()" id="scrollTopBtn" title="Наверх">↑ Наверх</button>
 <script>
-  <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('nav a').forEach(link => {
-      link.addEventListener('click', function(e) {
-        e.preventDefault();
-        const targetId = this.getAttribute('href').substring(1);
-        const targetElement = document.getElementById(targetId);
-        if (targetElement) {
-          targetElement.scrollIntoView({ behavior: 'smooth' });
-        }
-      });
-    });
-  });
-</script>
 
 </body>
 </html>
